@@ -1,7 +1,9 @@
 import folium
 from django.shortcuts import render
 from pokemon_entities.models import Pokemon, PokemonEntity
+import logging
 
+logger = logging.getLogger()
 MOSCOW_CENTER = [55.751244, 37.618423]
 DEFAULT_IMAGE_URL = "https://vignette.wikia.nocookie.net/pokemon/images/6/6e/%21.png/revision/latest/fixed-aspect-ratio-down/width/240/height/240?cb=20130525215832&fill=transparent"
 
@@ -49,7 +51,12 @@ def show_pokemon(request, pokemon_id):
         'title_jp': requested_pokemon.title_jp,
         'img_url': requested_pokemon.image.url,
         'description': requested_pokemon.description,
+        'previous_evolution': requested_pokemon.previous_evolution,
     }
+    try:
+        pokemon['next_evolution'] = requested_pokemon.pokemon_set.get()
+    except Pokemon.DoesNotExist as error:
+        logger.info(error)
 
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for pokemon_entity in PokemonEntity.objects.filter(pokemon=requested_pokemon):
