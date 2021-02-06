@@ -53,10 +53,13 @@ def show_pokemon(request, pokemon_id):
         'title_ru': requested_pokemon.title_ru,
         'title_en': requested_pokemon.title_en,
         'title_jp': requested_pokemon.title_jp,
-        'img_url': requested_pokemon.image.url,
         'description': requested_pokemon.description,
         'previous_evolution': requested_pokemon.previous_evolution,
     }
+    try:
+        pokemon['img_url'] = requested_pokemon.image.url
+    except ValueError as error:
+        logger.info(error)
     try:
         pokemon['next_evolution'] = requested_pokemon.pokemon_set.get()
     except Pokemon.DoesNotExist as error:

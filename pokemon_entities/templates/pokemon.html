@@ -33,7 +33,9 @@
                   <div class="img-thumbnail">
                     <a href="{% url 'pokemon' pokemon.previous_evolution.id %}">
                       <div class="d-flex justify-content-center">
-                        <img class="pull-left mr-2 float-left" src="{{pokemon.previous_evolution.image.url}}" style="height:50px; width:50px">
+                        {% if pokemon.previous_evolution.image %}
+                          <img class="pull-left mr-2 float-left" src="{{pokemon.previous_evolution.image.url}}" style="height:50px; width:50px">
+                        {% endif %}
                         <p class="align-middle m-0" style="line-height:50px; font-size: 20px;">{{pokemon.previous_evolution.title_ru}}</p>
                       </div>
                     </a>
@@ -46,7 +48,9 @@
                   <div class="img-thumbnail">
                     <a href="{% url 'pokemon' pokemon.next_evolution.id %}">
                       <div class="d-flex justify-content-center">
-                        <img class="pull-left mr-2 float-left" src="{{pokemon.next_evolution.image.url}}" style="height:50px; width:50px">
+                        {% if pokemon.next_evolution.image %}
+                          <img class="pull-left mr-2 float-left" src="{{pokemon.next_evolution.image.url}}" style="height:50px; width:50px">
+                        {% endif %}
                         <p class="align-middle m-0" style="line-height:50px; font-size: 20px;">{{pokemon.next_evolution.title_ru}}</p>
                       </div>
                     </a>
