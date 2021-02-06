@@ -26,8 +26,12 @@ def show_all_pokemons(request):
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for pokemon in pokemons:
         for pokemon_entity in PokemonEntity.objects.filter(pokemon=pokemon):
-            add_pokemon(
-                folium_map, pokemon_entity.lat, pokemon_entity.lon, pokemon.image.path)
+            try:
+                add_pokemon(
+                    folium_map, pokemon_entity.lat, pokemon_entity.lon, pokemon.image.path)
+            except ValueError as error:
+                logger.info(error)
+                add_pokemon(folium_map, pokemon_entity.lat, pokemon_entity.lon)
 
     pokemons_on_page = []
     for pokemon in pokemons:
@@ -67,8 +71,12 @@ def show_pokemon(request, pokemon_id):
 
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for pokemon_entity in PokemonEntity.objects.filter(pokemon=requested_pokemon):
-        add_pokemon(
-            folium_map, pokemon_entity.lat, pokemon_entity.lon, requested_pokemon.image.path)
+        try:
+            add_pokemon(folium_map, pokemon_entity.lat, pokemon_entity.lon, requested_pokemon.image.path)
+        except ValueError as error:
+            logger.info(error)
+            add_pokemon(folium_map, pokemon_entity.lat, pokemon_entity.lon)
+
 
     return render(request, "pokemon.html", context={'map': folium_map._repr_html_(),
                                                     'pokemon': pokemon})
