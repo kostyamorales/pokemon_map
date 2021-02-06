@@ -5,7 +5,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -17,11 +16,15 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title_ru', models.CharField(max_length=200, verbose_name='Название на русском')),
-                ('title_en', models.CharField(blank=True, max_length=200, null=True, verbose_name='Название на английском')),
-                ('title_jp', models.CharField(blank=True, max_length=200, null=True, verbose_name='Название на японском')),
+                ('title_en',
+                 models.CharField(blank=True, max_length=200, null=True, verbose_name='Название на английском')),
+                ('title_jp',
+                 models.CharField(blank=True, max_length=200, null=True, verbose_name='Название на японском')),
                 ('image', models.ImageField(upload_to='', verbose_name='Картинка')),
                 ('description', models.TextField(blank=True, null=True, verbose_name='Описание')),
-                ('previous_evolution', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='pokemon_entities.pokemon', verbose_name='Предыдущая эволюция')),
+                ('previous_evolution',
+                 models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT,
+                                   to='pokemon_entities.pokemon', verbose_name='Предыдущая эволюция')),
             ],
         ),
         migrations.CreateModel(
@@ -37,7 +40,8 @@ class Migration(migrations.Migration):
                 ('strength', models.IntegerField(blank=True, null=True, verbose_name='Атака')),
                 ('defence', models.IntegerField(blank=True, null=True, verbose_name='Защита')),
                 ('stamina', models.IntegerField(blank=True, null=True, verbose_name='Выносливость')),
-                ('pokemon', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='pokemon_entities.pokemon')),
+                ('pokemon',
+                 models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='pokemon_entities.pokemon')),
             ],
         ),
     ]
