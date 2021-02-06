@@ -61,7 +61,7 @@ def show_pokemon(request, pokemon_id):
     except ValueError as error:
         logger.info(error)
     try:
-        pokemon['next_evolution'] = requested_pokemon.pokemon_set.get()
+        pokemon['next_evolution'] = requested_pokemon.next.get()
     except Pokemon.DoesNotExist as error:
         logger.info(error)
 
