@@ -1,6 +1,6 @@
 import folium
 from django.shortcuts import render
-from pokemon_entities.models import Pokemon, PokemonEntity
+from pokemon_entities.models import Pokemon
 import logging
 
 logger = logging.getLogger()
@@ -25,7 +25,7 @@ def show_all_pokemons(request):
 
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for pokemon in pokemons:
-        for pokemon_entity in PokemonEntity.objects.filter(pokemon=pokemon):
+        for pokemon_entity in pokemon.pokemonentity.all():
             try:
                 add_pokemon(
                     folium_map, pokemon_entity.lat, pokemon_entity.lon, pokemon.image.path)
@@ -70,13 +70,12 @@ def show_pokemon(request, pokemon_id):
         logger.info(error)
 
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
-    for pokemon_entity in PokemonEntity.objects.filter(pokemon=requested_pokemon):
+    for pokemon_entity in requested_pokemon.pokemonentity.all():
         try:
             add_pokemon(folium_map, pokemon_entity.lat, pokemon_entity.lon, requested_pokemon.image.path)
         except ValueError as error:
             logger.info(error)
             add_pokemon(folium_map, pokemon_entity.lat, pokemon_entity.lon)
-
 
     return render(request, "pokemon.html", context={'map': folium_map._repr_html_(),
                                                     'pokemon': pokemon})
