@@ -25,7 +25,7 @@ def show_all_pokemons(request):
 
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for pokemon in pokemons:
-        for pokemon_entity in pokemon.pokemonentity.all():
+        for pokemon_entity in pokemon.pokemonsentities.all():
             try:
                 add_pokemon(
                     folium_map, pokemon_entity.lat, pokemon_entity.lon, pokemon.image.path)
@@ -73,7 +73,7 @@ def show_pokemon(request, pokemon_id):
         logger.info(error)
 
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
-    for pokemon_entity in requested_pokemon.pokemonentity.all():
+    for pokemon_entity in requested_pokemon.pokemonsentities.all():
         try:
             add_pokemon(folium_map, pokemon_entity.lat, pokemon_entity.lon, requested_pokemon.image.path)
         except ValueError as error:
