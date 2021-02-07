@@ -2,6 +2,7 @@ import folium
 from django.shortcuts import render
 from pokemon_entities.models import Pokemon
 import logging
+from sys import exit
 
 logger = logging.getLogger()
 MOSCOW_CENTER = [55.751244, 37.618423]
@@ -56,6 +57,7 @@ def show_pokemon(request, pokemon_id):
         requested_pokemon = Pokemon.objects.get(id=pokemon_id)
     except Pokemon.DoesNotExist as error:
         logger.info(error)
+        exit()
     pokemon = {
         'title_ru': requested_pokemon.title_ru,
         'title_en': requested_pokemon.title_en,
