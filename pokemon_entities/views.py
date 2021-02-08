@@ -1,5 +1,6 @@
 import folium
 from django.shortcuts import render
+from django.http import HttpResponse
 from pokemon_entities.models import Pokemon
 import logging
 
@@ -56,6 +57,7 @@ def show_pokemon(request, pokemon_id):
         requested_pokemon = Pokemon.objects.get(id=pokemon_id)
     except Pokemon.DoesNotExist as error:
         logger.info(error)
+        return HttpResponse('Покемон в базе не найден. Попробуйте ещё раз или выберите другого.')
     pokemon = {
         'title_ru': requested_pokemon.title_ru,
         'title_en': requested_pokemon.title_en,
